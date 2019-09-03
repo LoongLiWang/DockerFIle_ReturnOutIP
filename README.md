@@ -1,37 +1,71 @@
-# ReturnOutIP
+Golang 服务器返回公网地址
 
-#### 介绍
-返回公网IP
+```
+gitee地址: https://gitee.com/wang_li/ReturnOutIP
+```
 
-#### 软件架构
-软件架构说明
+### 获取帮助:
+``` bash
+# ./ReturnOutIP -h
+Usage of ./ReturnOutIP:
+  -ListenAddr string
+        Set http server listen address (default "0.0.0.0:93")
+  -ListenRoute string
+        Set http server listen Route (default "/4u6385IP")
+  -h    This help
+#
+```
 
+### 默认参数
+默认运行监听的端口为: 0.0.0.0:93 监听的http路由为 /4u6385IP
+``` bash
+# ./ReturnOutIP
+2019/09/03 15:36:55 Server running on http://0.0.0.0:93/4u6385IP
+```
 
-#### 安装教程
+### 指定监听的端口和路由
+``` bash
+# ./ReturnOutIP -ListenAddr "0.0.0.0:95" -ListenRoute '/OutIP'
+2019/09/03 15:41:24 Server running on http://0.0.0.0:95/OutIP
+```
 
-1. xxxx
-2. xxxx
-3. xxxx
+### 扩展
+#### python客户端
+``` python
+#!/usr/bin/env python3
 
-#### 使用说明
+import requests
 
-1. xxxx
-2. xxxx
-3. xxxx
+def main():
+    url = "http://ip.wang-li.top:93/4u6385IP"
+    MyIP = requests.get(url).text
+    print(MyIP)
 
-#### 参与贡献
+if __name__ == '__main__':
+    main()
+```
 
-1. Fork 本仓库
-2. 新建 Feat_xxx 分支
-3. 提交代码
-4. 新建 Pull Request
+#### Golang客户端
+``` golang
+package main
 
+import (
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
 
-#### 码云特技
+func main() {
+	url := "URL"
 
-1. 使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2. 码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3. 你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4. [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5. 码云官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6. 码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+	resp , err := http.Get(url);if err != nil {
+		fmt.Println("Http Connect Error", err)
+	} else {
+		b , err := ioutil.ReadAll(resp.Body); if err != nil {
+			fmt.Println("Read Body Error" , err)
+		} else {
+			fmt.Printf("%s",b)
+		}
+	}
+}
+```
