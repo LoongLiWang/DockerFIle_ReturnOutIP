@@ -7,7 +7,6 @@ import (
 	"net/http"
 	"os"
 	"strings"
-	"time"
 )
 
 var (
@@ -24,8 +23,13 @@ func init() {
 
 func OutIPAddress(w http.ResponseWriter, r *http.Request) {
 	slice01 := strings.Split(r.RemoteAddr,":")
-	log.Println(time.Now(),"-- 4u6385IP --",r)
+	log.Println( "RemoteAddr:" , slice01[0],"URL:" , r.URL , "UserAgent:" , r.UserAgent())
 	fmt.Fprintf(w,slice01[0])
+}
+
+func OutIPAddressMore(w http.ResponseWriter , r *http.Request) {
+	log.Println("/more" , r)
+	fmt.Fprintln(w,r)
 }
 
 func main() {
@@ -41,14 +45,17 @@ func main() {
 	}
 
 	http.HandleFunc(ListenRoute,OutIPAddress)
+	http.HandleFunc("/",OutIPAddress)
+	http.HandleFunc("/more",OutIPAddressMore)
 
+	log.Println("Server running on http://" + LitenAddr)
 	log.Println("Server running on http://" + LitenAddr + ListenRoute)
 
 	s := &http.Server{
 		Addr:	LitenAddr,
-		ReadTimeout:10*time.Second,
-		WriteTimeout:10*time.Second,
-		MaxHeaderBytes:1<<20,
+		//ReadTimeout:10*time.Second,
+		//WriteTimeout:10*time.Second,
+		//MaxHeaderBytes:1<<20,
 	}
 	log.Fatal(s.ListenAndServe())
 }
