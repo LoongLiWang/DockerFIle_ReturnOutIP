@@ -14,8 +14,8 @@ var (
 	h bool
 	LitenAddr string
 	ListenRoute string
-	FlowLimitTime int
-	FlowLimitCount int
+	FlowLimitTime int64
+	FlowLimitCount int64
 	FlowSum map[string]FlowLimit
 )
 
@@ -24,7 +24,7 @@ type FlowLimit struct {
 	Ip string
 	StartUnixTime int64
 	UpdateUnixTime int64
-	FlowCount int
+	FlowCount int64
 }
 
 
@@ -33,8 +33,8 @@ func init() {
 	flag.BoolVar(&h,"h",false,"This help")
 	flag.StringVar(&LitenAddr,"ListenAddr","0.0.0.0:93","Set http server listen address")
 	flag.StringVar(&ListenRoute,"ListenRoute","/4u6385IP","Set http server listen Route")
-	flag.IntVar(&FlowLimitTime,"LimitTime",1,"Set flow limit time , (Second)")
-	flag.IntVar(&FlowLimitCount,"LimitCount",10000,"Set the  flow limit throughput within the time")
+	flag.Int64Var(&FlowLimitTime,"LimitTime",1,"Set flow limit time , (Second)")
+	flag.Int64Var(&FlowLimitCount,"LimitCount",10000,"Set the  flow limit throughput within the time")
 }
 
 func OutIPAddress(w http.ResponseWriter, r *http.Request) {
@@ -113,8 +113,8 @@ func (F *FlowLimit)CoreCount() (bool) {
 
 	F.UpdateUnixTime = time.Now().Unix()
 
-	if 10 < F.FlowCount {
-		if 60 > F.UpdateUnixTime - F.StartUnixTime {
+	if FlowLimitCount < F.FlowCount {
+		if FlowLimitTime > F.UpdateUnixTime - F.StartUnixTime {
 			log.Println(time.Now(),F.FlowCount,": 限流")
 			return false
 		} else if 60 < F.UpdateUnixTime - F.StartUnixTime {
