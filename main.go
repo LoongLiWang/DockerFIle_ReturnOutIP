@@ -52,11 +52,17 @@ func OutIPAddress(w http.ResponseWriter, r *http.Request) {
 	}
 
 	fmt.Println(IpsFlowLimit)
-	IpsFlowLimit.CoreCount()
+	Result := IpsFlowLimit.CoreCount()
 
 	// 赋值存进系统
 	FlowSum[slice01[0]] = IpsFlowLimit
-	fmt.Fprintf(w,slice01[0])
+
+	if Result {
+		fmt.Fprintf(w,slice01[0])
+	} else {
+		fmt.Fprintf(w,"Flow Limit " , r)
+	}
+
 }
 
 func OutIPAddressMore(w http.ResponseWriter , r *http.Request) {
@@ -109,14 +115,14 @@ func (F *FlowLimit)CoreCount() (bool) {
 
 	if 10 < F.FlowCount {
 		if 60 > F.UpdateUnixTime - F.StartUnixTime {
-			fmt.Println(time.Now(),F.FlowCount,": 限流")
+			log.Println(time.Now(),F.FlowCount,": 限流")
 			return false
 		} else if 60 < F.UpdateUnixTime - F.StartUnixTime {
 			F.StartUnixTime = time.Now().Unix()
 			F.FlowCount = 1
 		}
 	}
-	fmt.Println(time.Now(),F.FlowCount,": 正常")
+	log.Println(time.Now(),F.FlowCount,": 正常")
 
 	return true
 }
