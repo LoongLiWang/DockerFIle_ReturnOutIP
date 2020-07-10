@@ -4,6 +4,81 @@ Golang 服务器返回公网地址
 gitee地址: https://gitee.com/wang_li/ReturnOutIP
 ```
 
+## 客户端相关
+### 扩展
+
+#### shell
+```shell
+# curl ip.wang-li.top:93
+```
+
+#### python客户端
+``` python
+#!/usr/bin/env python3
+
+import requests
+
+def main():
+    url = "http://ip.wang-li.top:93/4u6385IP"
+    MyIP = requests.get(url).text
+    print(MyIP)
+
+if __name__ == '__main__':
+    main()
+```
+
+#### php
+```php
+<?php
+	$url='http://ip.wang-li.top:93';
+
+	$result=file_get_contents($url);
+
+	echo $result
+?>
+```
+
+#### Golang客户端
+``` golang
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	"net/http"
+)
+
+func main() {
+	url := "URL"
+
+	resp , err := http.Get(url);if err != nil {
+		fmt.Println("Http Connect Error", err)
+	} else {
+		b , err := ioutil.ReadAll(resp.Body); if err != nil {
+			fmt.Println("Read Body Error" , err)
+		} else {
+			fmt.Printf("%s",b)
+		}
+	}
+}
+```
+
+#### Lua
+```lua
+#!/usr/bin/lua5.3
+
+http = require("socket.http")
+
+function ReturnIP(url)
+	local resp = http.request(url)
+
+	return resp
+end
+
+print(ReturnIP('http://ip.wang-li.top:93/4u6385IP'))
+```
+
+## 服务器相关
 ### 获取帮助:
 ``` bash
 # ./ReturnOutIP -h
@@ -96,43 +171,3 @@ Usage of ./ReturnOutIP:
 2020/07/09 21:36:02 2020-07-09 21:36:02.72304481 +0800 CST m=+52.076344261 11 : 限流
 ```
 
-### 扩展
-#### python客户端
-``` python
-#!/usr/bin/env python3
-
-import requests
-
-def main():
-    url = "http://ip.wang-li.top:93/4u6385IP"
-    MyIP = requests.get(url).text
-    print(MyIP)
-
-if __name__ == '__main__':
-    main()
-```
-
-#### Golang客户端
-``` golang
-package main
-
-import (
-	"fmt"
-	"io/ioutil"
-	"net/http"
-)
-
-func main() {
-	url := "URL"
-
-	resp , err := http.Get(url);if err != nil {
-		fmt.Println("Http Connect Error", err)
-	} else {
-		b , err := ioutil.ReadAll(resp.Body); if err != nil {
-			fmt.Println("Read Body Error" , err)
-		} else {
-			fmt.Printf("%s",b)
-		}
-	}
-}
-```
