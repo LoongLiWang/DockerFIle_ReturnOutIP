@@ -80,6 +80,30 @@ func main() {
 	// 申请内存
 	FlowSum = make(map[string]FlowLimit)
 
+	// 开启协程，删除map值
+	go func() {
+		for {
+			if 30 < len(FlowSum) {
+				time.Sleep(1 * time.Second)
+			} else if 20 < len(FlowSum) {
+				time.Sleep(10 * time.Second)
+			} else if 10 < len(FlowSum) {
+				time.Sleep(30 * time.Second)
+			} else {
+				time.Sleep(60 * time.Second)
+			}
+
+
+
+			for k , v := range FlowSum {
+				if time.Now().Unix() > v.UpdateUnixTime + FlowLimitTime {
+					log.Println("回收" , k , "值" , ": " , FlowSum[k])
+					delete(FlowSum,k)
+				}
+			}
+		}
+	}()
+
 
 	if h {
 		flag.Usage()
