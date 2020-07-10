@@ -83,6 +83,10 @@ print(ReturnIP('http://ip.wang-li.top:93/4u6385IP'))
 ``` bash
 # ./ReturnOutIP -h
 Usage of ./ReturnOutIP:
+  -LimitCount int
+        Set the  flow limit throughput within the time (default 10000)
+  -LimitTime int
+        Set flow limit time , (Second) (default 1)
   -ListenAddr string
         Set http server listen address (default "0.0.0.0:93")
   -ListenRoute string
@@ -95,13 +99,18 @@ Usage of ./ReturnOutIP:
 默认运行监听的端口为: 0.0.0.0:93 监听的http路由为 /4u6385IP
 ``` bash
 # ./ReturnOutIP
-2019/09/03 15:36:55 Server running on http://0.0.0.0:93/4u6385IP
+2020/07/10 11:49:23 LimitTime: 60 's   LimitCount: 50
+2020/07/10 11:49:23 Server running on http://0.0.0.0:93
+2020/07/10 11:49:23 Server running on http://0.0.0.0:93/4u6385IP
+
 ```
 
 ### 指定监听的端口和路由
 ``` bash
 # ./ReturnOutIP -ListenAddr "0.0.0.0:95" -ListenRoute '/OutIP'
-2019/09/03 15:41:24 Server running on http://0.0.0.0:95/OutIP
+2020/07/10 13:27:20 LimitTime: 1 's   LimitCount: 10000
+2020/07/10 13:27:20 Server running on http://0.0.0.0:95
+2020/07/10 13:27:20 Server running on http://0.0.0.0:95/OutIP
 ```
 
 ### 限流
