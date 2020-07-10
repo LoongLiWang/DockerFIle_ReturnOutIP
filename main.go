@@ -8,7 +8,6 @@ import (
 	"os"
 	"strings"
 	"time"
-	"unsafe"
 )
 
 var (
@@ -58,7 +57,8 @@ func OutIPAddress(w http.ResponseWriter, r *http.Request) {
 	// 赋值存进系统
 	FlowSum[slice01[0]] = IpsFlowLimit
 
-	log.Println("map 占用内存" , unsafe.Sizeof(FlowSum))
+	log.Println("map 值:" , FlowSum)
+	//log.Println("map 占用内存" , unsafe.Sizeof(FlowSum))
 
 	if Result {
 		fmt.Fprintf(w,slice01[0])
