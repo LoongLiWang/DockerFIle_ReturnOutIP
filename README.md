@@ -79,6 +79,13 @@ print(ReturnIP('http://ip.wang-li.top:93/4u6385IP'))
 ```
 
 ## 服务器相关
+### Docker部署:
+Docker Hub 地址:  https://hub.docker.com/r/2859413527/retuen_out_ip
+```bash
+# docker pull 2859413527/retuen_out_ip
+# docker run -d --name rp -p 93:93 2859413527/retuen_out_ip
+```
+
 ### 获取帮助:
 ``` bash
 # ./ReturnOutIP -h
