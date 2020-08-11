@@ -63,7 +63,9 @@ func OutIPAddress(w http.ResponseWriter, r *http.Request) {
 	if Result {
 		fmt.Fprintf(w,slice01[0])
 	} else {
-		fmt.Fprintf(w,"Flow Limit " , r)
+		//fmt.Fprintf(w,"Flow Limit " , r)
+		fmt.Fprintln(w,"限流,阈值:" , FlowLimitTime ,"分钟内最大访问量 ",FlowLimitCount,"次 \n" +
+			"实际访问量:","IP地址:",FlowSum[slice01[0]].Ip , " 访问量:" , FlowSum[slice01[0]].FlowCount," 开始时间戳:",FlowSum[slice01[0]].StartUnixTime," 最近访问时间戳:",FlowSum[slice01[0]].UpdateUnixTime)
 	}
 
 }
@@ -138,17 +140,34 @@ func (F *FlowLimit)CoreCount() (bool) {
 
 	F.FlowCount++
 
-	F.UpdateUnixTime = time.Now().Unix()
+	NowUpdateUnixTime := time.Now().Unix()
+	F.UpdateUnixTime = NowUpdateUnixTime
 
+	fmt.Println("相差秒数:" , F.UpdateUnixTime - F.StartUnixTime)
+
+
+	// 开始判断限流
 	if FlowLimitCount < F.FlowCount {
-		if FlowLimitTime > F.UpdateUnixTime - F.StartUnixTime {
+		if (FlowLimitTime * 60) < NowUpdateUnixTime - F.UpdateUnixTime {
+			//F.StartUnixTime = time.Now().Unix()
+			F.UpdateUnixTime = time.Now().Unix()
+			//F.FlowCount = 1
+		} else {
+			F.UpdateUnixTime = NowUpdateUnixTime
+		}
+
+		if (FlowLimitTime * 60) > F.UpdateUnixTime - F.StartUnixTime {
 			log.Println(time.Now(),F.FlowCount,": 限流")
 			return false
-		} else if 60 < F.UpdateUnixTime - F.StartUnixTime {
-			F.StartUnixTime = time.Now().Unix()
-			F.FlowCount = 1
 		}
 	}
+
+	// 开始复判限流
+	if F.UpdateUnixTime - F.StartUnixTime >= (FlowLimitTime * 60) && FlowLimitTime < F.FlowCount {
+		log.Println(time.Now(),F.FlowCount,": 限流")
+		return false
+	}
+
 	log.Println(time.Now(),F.FlowCount,": 正常")
 
 	return true
