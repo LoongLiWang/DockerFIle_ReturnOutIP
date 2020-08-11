@@ -98,7 +98,7 @@ func main() {
 
 
 			for k , v := range FlowSum {
-				if time.Now().Unix() > v.UpdateUnixTime + FlowLimitTime {
+				if time.Now().Unix() > v.UpdateUnixTime + (FlowLimitTime*60) {
 					log.Println("回收" , k , "值" , ": " , FlowSum[k])
 					delete(FlowSum,k)
 				}
@@ -120,7 +120,7 @@ func main() {
 	http.HandleFunc("/",OutIPAddress)
 	http.HandleFunc("/more",OutIPAddressMore)
 
-	log.Println("LimitTime:" , FlowLimitTime , "'s" , "  LimitCount:" , FlowLimitCount)
+	log.Println("LimitTime:" , FlowLimitTime , "'m" , "  LimitCount:" , FlowLimitCount)
 	log.Println("Server running on http://" + LitenAddr)
 	log.Println("Server running on http://" + LitenAddr + ListenRoute)
 
@@ -143,7 +143,7 @@ func (F *FlowLimit)CoreCount() (bool) {
 	NowUpdateUnixTime := time.Now().Unix()
 	F.UpdateUnixTime = NowUpdateUnixTime
 
-	fmt.Println("相差秒数:" , F.UpdateUnixTime - F.StartUnixTime)
+	//fmt.Println("相差秒数:" , F.UpdateUnixTime - F.StartUnixTime)
 
 
 	// 开始判断限流
