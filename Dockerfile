@@ -22,9 +22,10 @@ RUN yum install golang git -y
 
 # 克隆地址，然后进行编译
 RUN set -x \
-	&& git clone https://github.com/LoongLiWang/DockerFIle_ReturnOutIP.git \
-	&& cd ReturnOutIP \
-	&& go build
+        && git clone https://github.com/LoongLiWang/DockerFIle_ReturnOutIP.git \
+        && cd DockerFIle_ReturnOutIP \
+        && go get gopkg.in/mgo.v2 \
+        && go build
 
 # 切换工作目录
 WORKDIR /ReturnOutIP
