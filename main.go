@@ -60,9 +60,9 @@ func init() {
 	flag.Int64Var(&FlowLimitCount,"LimitCount",10,"Set the  flow limit throughput within the time")
 	flag.Int64Var(&MongoFlag,"MongoOn",0,"Mongo Flag (0: Off 1:On)")
 	flag.StringVar(&MongoHost,"MongoHost","127.0.0.1","Mongo Host")
-	flag.StringVar(&MongoAuthDB,"MongoAuthDB","","Mongo Auth DB")
-	flag.StringVar(&MongoUser,"MongoUser","","MongoUser")
-	flag.StringVar(&MongoPass,"MongoPass","","Mongo Password")
+	flag.StringVar(&MongoAuthDB,"MongoAuthDB","admin","Mongo Auth DB")
+	flag.StringVar(&MongoUser,"MongoUser","none","MongoUser")
+	flag.StringVar(&MongoPass,"MongoPass","none","Mongo Password")
 }
 
 func OutIPAddress(w http.ResponseWriter, r *http.Request) {
