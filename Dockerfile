@@ -28,10 +28,10 @@ RUN set -x \
         && go build
 
 # 切换工作目录
-WORKDIR /ReturnOutIP
+WORKDIR /DockerFIle_ReturnOutIP
 
 # 对外开放端口
 EXPOSE 93
 
 # 执行命令
-CMD  ./ReturnOutIP "-ListenRoute" $ListenRoute "-LimitTime" $LimitTime "-LimitCount" $LimitCount "-MongoOn" $MongoOn "-MongoHost" $MongoHost "-MongoAuthDB" $MongoAuthDB "-MongoUser" $MongoUser "-MongoPass" $MongoPass
+CMD  ./DockerFIle_ReturnOutIP "-ListenRoute" $ListenRoute "-LimitTime" $LimitTime "-LimitCount" $LimitCount "-MongoOn" $MongoOn "-MongoHost" $MongoHost "-MongoAuthDB" $MongoAuthDB "-MongoUser" $MongoUser "-MongoPass" $MongoPass
