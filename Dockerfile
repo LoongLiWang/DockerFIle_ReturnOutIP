@@ -11,9 +11,9 @@ ENV LimitTime 60
 ENV LimitCount 60
 ENV MongoOn 0
 ENV MongoHost 127.0.0.1
-ENV MongoAuthDB ''
-ENV MongoUser ''
-ENV MongoPass ''
+ENV MongoAuthDB 'auth'
+ENV MongoUser 'none'
+ENV MongoPass 'none'
 
 WORKDIR /
 
