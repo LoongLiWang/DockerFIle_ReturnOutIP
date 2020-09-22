@@ -309,7 +309,7 @@ func (F *FlowLimit)CoreCount() (bool) {
 	}
 
 	// 开始复判限流
-	if F.UpdateUnixTime - F.StartUnixTime >= (FlowLimitTime * 60) && FlowLimitTime < F.FlowCount {
+	if F.UpdateUnixTime - F.StartUnixTime >= (FlowLimitTime * 60) && FlowLimitCount < F.FlowCount {
 		if 0 == MongoFlag {
 			log.Println(time.Now(),F.FlowCount,": 限流")
 		}
